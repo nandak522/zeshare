@@ -1,0 +1,9 @@
+/*Global Styles*/
+#header{height:70px;}
+#site_header{font:normal 1.8em "Monospace",'sans-serif', 'Arial';}
+.header{background:#00223B;color:#FFF;}
+.footer{background:#00223B;color:#FFF;text-align:center;}
+
+/*Snippet Profile Page*/
+.linenodiv a{color:#FFF;text-decoration:none;}
+.snippet{background:#00223B;padding:0.5em 0;font-size:13px;color:#F8F8F2;font-family:monospace;overflow:auto;}

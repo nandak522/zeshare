@@ -1,0 +1,12 @@
+{%extends 'singlepane_base.html'%}
+{% block title %}{{snippet.title|title}}{% endblock %}
+{%block extrastyle%}
+<link rel="stylesheet" type="text/css" media="screen" href="/site_media/css/pygments/monokai.css"/>
+<link rel="stylesheet" type="text/css" media="print" href="/site_media/css/blueprint/print.css"/>
+{%endblock%}
+{%block content%}
+This is the snippet profile page<br/>
+Title:{{snippet.title|title}}<br/>
+<div class='snippet'>{{snippet.highlight|safe}}</div>
+<a href="{%url all_snippets%}">All Snippets</a>
+{%endblock%}

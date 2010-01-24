@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{% block title %}{% endblock %} - ZeShare</title>
+{%block css%}
+<link rel="stylesheet" type="text/css" media="screen" href="/site_media/css/blueprint/screen.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/site_media/css/master.css" />
+<!--[if IE]><link rel="stylesheet" href="/site_media/css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+{%endblock%}
+{%block extrastyle%}
+{%endblock%}
+</head>
+<body>
+    <div id="container" class='container'>
+        <div id='header' class='header span-23 prepend-1'>
+            {%block header%}
+                {%include 'header.html'%}        
+            {%endblock%}
+        </div><!-- end of header -->
+        <div id='tabs' class='span-24'>
+            {%block tabs%}
+                {%include 'tabs.html'%}
+            {%endblock%}
+        </div><!-- end of tabs -->
+        <div id='content' class='span-24'>
+            {%block content%}
+            {%endblock%}
+        </div><!-- end of content -->
+        <div id='footer' class='footer span-24'>
+            {%block footer%}
+                {%include 'footer.html'%}            
+            {%endblock%}
+        </div><!-- end of footer -->
+    </div><!-- end of container -->
+    {%block extrajs%}{%endblock%}
+</body>
+</html>

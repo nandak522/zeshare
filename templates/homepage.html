@@ -1,0 +1,20 @@
+{%extends 'singlepane_base.html'%}
+{% block title %}Home{% endblock %}
+{%block content%}
+This is the homepage
+This site is all about sharing code snippets across the organization. 
+Code snippets should be from one of these languages:
+<ul>
+    <li>Python</li>
+    <li>Sql</li>
+    <li>Html</li>
+    <li>Javascript</li>
+</ul> 
+Browse:
+<br/>
+<ul>
+<li><a href="{%url all_snippets%}">All Snippets</a></li>
+<li><a href="{%url recent_snippets%}">Recently Added Snippets</a></li>
+<li><a href="{%url add_snippet%}">Add Snippet</a></li>
+</ul>
+{%endblock%}

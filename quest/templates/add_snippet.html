@@ -1,0 +1,11 @@
+{%extends 'singlepane_base.html'%}
+{%block title%}Add Snippet{%endblock%}
+{%block content%}
+<b>Add Snippet Form</b><br/>
+{{form.errors}}
+<form action="." method='POST'>
+{{form}}
+<input type='submit' name='submit' value='Add Snippet'/>
+</form>
+<a href='{%url all_snippets%}'>All Snippets</a>, <a href='{%url homepage%}'>Home</a>
+{%endblock%}

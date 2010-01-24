@@ -1,0 +1,21 @@
+{%extends 'singlepane_base.html'%}
+{%block title%}All Snippets{%endblock%}
+{%block content%}
+This page contains all the snippets present in code share<br/>
+<ul>
+{%for snippet in snippets.object_list%}
+    <li><a href="{%url snippet_profile snippet_id=snippet.id snippet_slug=snippet.slug%}">{{snippet.title|title}}</a></li>
+{%empty%}
+    <li>No Snippets as of now</li>
+{%endfor%}
+</ul>
+{%block pagination%}
+{%if snippets.has_previous%}
+<a href='?page={{snippets.previous_page_number}}'>Previous</a>
+{%endif%}
+<b>You are at {{snippets.number}} page</b>
+{%if snippets.has_next%}
+<a href='?page={{snippets.next_page_number}}'>Next</a>
+{%endif%}
+{%endblock%}
+{%endblock%}

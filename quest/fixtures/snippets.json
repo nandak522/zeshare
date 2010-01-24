@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 8, 
+        "model": "quest.snippet", 
+        "fields": {
+            "lang": "sql", 
+            "code": "select * from table_mine;", 
+            "title": "Sql select", 
+            "explanation": "Some Explanation", 
+            "public": true, 
+            "active": true, 
+            "created_on": "2010-01-17 14:47:43", 
+            "modified_on": "2010-01-17 14:57:09", 
+            "slug": "sql-select"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "quest.snippet", 
+        "fields": {
+            "lang": "py", 
+            "code": "tup = tuple([item for item in lst])\r\n#use 'tup' from now on", 
+            "title": "Tuple Instead of List", 
+            "explanation": "Tuple Instead of List", 
+            "public": true, 
+            "active": false, 
+            "created_on": "2010-01-17 11:19:35", 
+            "modified_on": "2010-01-17 14:42:32", 
+            "slug": "tuple-instead-list"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "quest.snippet", 
+        "fields": {
+            "lang": "py", 
+            "code": "lst = [item for item in list]", 
+            "title": "List Comprehension", 
+            "explanation": "List Comprehension", 
+            "public": true, 
+            "active": true, 
+            "created_on": "2010-01-17 11:18:38", 
+            "modified_on": "2010-01-17 11:18:38", 
+            "slug": "list-comprehension"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "quest.snippet", 
+        "fields": {
+            "lang": "py", 
+            "code": "from django.core.management.base import BaseCommand\r\n\r\nclass Command(BaseCommand):\r\n    option_list = BaseCommand.option_list\r\n    help = \"Scans through the given app for faulty imports, or the entire project directory if no apps are specified\"\r\n    args = '[appname ...]'\r\n    requires_model_validation = False\r\n\r\n    def import_statement_extractor(self, directory_path, python_file):\r\n        python_file = '%s/%s' % (directory_path, python_file)\r\n        file_content = open(python_file).readlines()\r\n        line_number = 0\r\n        for line in file_content:\r\n            line_number += 1\r\n            line = line.strip()\r\n            if not line.startswith('#') or not line.startswith(\"'''\"):\r\n                if line.startswith('from ') or line.startswith('import '):\r\n                    try:\r\n                        exec(line)\r\n                    except ImportError, e:\r\n                        print '%s(line:%s) Reason:%s' % (python_file, line_number, e.__str__())\r\n                    except Exception, e:\r\n                        print '%s(line:%s) Reason:%s' % (python_file, line_number, e.__str__())\r\n\r\n    def directory_py_files(self, parent_directory):\r\n        import os\r\n        directory_generator = os.walk(parent_directory)\r\n        directory_info = directory_generator.next()\r\n        for file_name in directory_info[2]:\r\n            if file_name.endswith('py'):\r\n                self.import_statement_extractor(directory_info[0], file_name)\r\n        for directory in directory_info[1]:\r\n            if not directory.startswith('.'):\r\n                self.directory_py_files('%s/%s' % (parent_directory, directory))\r\n\r\n    def handle(self, *app_labels, **options):\r\n        from django.conf import settings\r\n        import sys\r\n        if not app_labels:\r\n            self.directory_py_files(settings.ROOT_PATH)\r\n            sys.exit()\r\n        for app_label in app_labels:\r\n            if app_label not in settings.CUSTOM_APPS:\r\n                sys.exit(\"Supplied app '%s' is not part of this project. Please mention a proper app name\" % app_label)\r\n        for app_label in app_labels:\r\n            self.directory_py_files(settings.ROOT_PATH + \"/\" + app_label)\r\n", 
+            "title": "All Imports Checker", 
+            "explanation": "All Imports Checkeralert('hello')", 
+            "public": true, 
+            "active": true, 
+            "created_on": "2010-01-15 14:51:09", 
+            "modified_on": "2010-01-15 18:29:11", 
+            "slug": "all-imports-checker"
+        }
+    }
+]
