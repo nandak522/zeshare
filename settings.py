@@ -33,9 +33,11 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+ROOT_PATH = os.getcwd()
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/nanda/workspace2/zeshare/site_media/'
+MEDIA_ROOT = '%s/site_media/' % ROOT_PATH
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -68,12 +70,10 @@ MIDDLEWARE_CLASSES = (
 
 INTERNAL_IPS = ('127.0.0.1',)
 
-ROOT_PATH = os.getcwd()
-
 ROOT_URLCONF = 'zeshare.urls'
 
 TEMPLATE_DIRS = (
-    "/home/nanda/workspace2/zeshare/templates",
+    "%s/templates" % ROOT_PATH,
 )
 
 INSTALLED_APPS = (
