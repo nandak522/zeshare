@@ -1,1 +1,15 @@
-<div id='site_header'><a style='text-decoration:none;color:#FFF;' href='{%url homepage%}'>ZeShare</a></div>
+<div id='site_header'>
+    <div class='column span-10'><a style='text-decoration:none;color:#FFF;' href='{%url homepage%}'>ZeShare</a></div>
+    <div id='header_toplinks' class='column span-12'>
+        {%if user.is_authenticated%}
+	        {%with user.get_profile as userprofile%}
+	           Welcome , {%firstof userprofile.name userprofile.email%}&nbsp;|&nbsp;<a href='{%url logout%}'>Logout</a>
+	        {%endwith%}
+	    {%else%}
+	       <a href='{%url login%}'>Login</a>
+        {%endif%}
+        &nbsp;|&nbsp;
+        <a href='/site_media/html/about.html'>About</a>
+    </div>
+    
+</div>

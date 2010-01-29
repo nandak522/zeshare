@@ -1,0 +1,31 @@
+[
+    {
+        "pk": 1, 
+        "model": "users.userprofile", 
+        "fields": {
+            "modified_on": "2010-01-26 16:34:20", 
+            "created_on": "2010-01-26 16:34:20", 
+            "user": 1, 
+            "name": "Nanda Kishore", 
+            "email": "madhav.bnk@gmail.com"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "e327ed53d5347305546e0b367a5ea4", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-01-26 16:34:20", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$98315$938f0d4e1efdee90297acb003317f4c509fea35c", 
+            "email": "madhav.bnk@gmail.com", 
+            "date_joined": "2010-01-26 16:34:20"
+        }
+    }
+]

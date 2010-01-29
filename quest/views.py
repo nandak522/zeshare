@@ -1,6 +1,8 @@
 from quest.models import Snippet
 from utils import response
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from quest.decorators import is_snippetowner
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
@@ -20,8 +22,12 @@ def view_all_snippets(request, all_snippets_template):
 
 def view_snippet_profile(request, snippet_id, snippet_slug, snippet_profile_template):
     snippet = get_object_or_404(Snippet, id=int(snippet_id), slug=snippet_slug)
-    skin = request.GET.get('skin')
-    return response(request, snippet_profile_template, {'snippet': snippet, 'skin': skin})
+    user = request.user
+    owner = False
+    if user.is_authenticated() and snippet.owner == user.get_profile():
+        owner = True
+    return response(request, snippet_profile_template, {'snippet': snippet,
+                                                        'owner': owner})
 
 def view_recent_snippets(request, recent_snippets_template):
     raise NotImplementedError
@@ -35,11 +41,39 @@ def view_add_snippet(request, add_snippet_template, snippet_profile_template):
         form = AddSnippetForm(request.POST.copy())
         if form.is_valid():
             snippet = _handle_snippet_creation(form)
+            user = request.user
+            if user.is_authenticated():
+                userprofile = user.get_profile()
+                from quest.models import UserProfileSnippetMembership
+                UserProfileSnippetMembership.objects.create_membership(userprofile=userprofile,
+                                                                       snippet=snippet)
             return response(request, snippet_profile_template, {'form': form,
                                                                 'snippet': snippet})
     else:
         form = AddSnippetForm()
     return response(request, add_snippet_template, {'form': form})
+
+@login_required
+@is_snippetowner
+def view_modify_snippet(request, snippet_id, snippet_slug, modify_snippet_template, snippet_profile_template):
+    from quest.forms import AddSnippetForm
+    if request.method == 'POST':
+        form_data = {'title':'',
+                     'explanation':'',
+                     'code':'',
+                     'snippet':'',
+                     'lang':''}
+        form = AddSnippetForm(form_data)
+        if form.is_valid():
+            existing_snippet = Snippet.objects.get(id=snippet_id)
+            updated_snippet = _handle_snippet_updation(form, existing_snippet)
+            return response(request, snippet_profile_template, {'form': form,
+                                                                'snippet': updated_snippet})
+    else:
+        form = AddSnippetForm()
+        snippet = Snippet.objects.get(id=snippet_id)
+        return response(request, modify_snippet_template, {'form':form,
+                                                           'snippet': snippet})
 
 def _handle_snippet_creation(form):
     snippet_data = form.cleaned_data
@@ -48,9 +82,12 @@ def _handle_snippet_creation(form):
     explanation = snippet_data.get('explanation')
     public = snippet_data.get('public')
     lang = snippet_data.get('lang')
-    snippet = Snippet.objects.create_snippet(title=title, 
-                                             explanation=explanation, 
-                                             code=code, 
+    return Snippet.objects.create_snippet(title=title,
+                                             explanation=explanation,
+                                             code=code,
                                              lang=lang,
-                                             public=public) 
-    return snippet
+                                             public=public)
+
+def _handle_snippet_updation(form, existing_snippet):
+    snippet_data = form.cleaned_data
+    return Snippet.objects.update_snippet(existing_snippet, snippet_data)

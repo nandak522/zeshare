@@ -11,8 +11,15 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     (r'^snippets/', include('quest.urls')),
+    (r'^users/', include('users.urls')),
 )
 
 urlpatterns += patterns('quest.views',
     (r'^$', 'view_homepage', {'homepage_template':'homepage.html'}, 'homepage'),
 )
+
+urlpatterns += patterns('users.views',
+    (r'^accounts/login/$', 'view_login', {'login_template': 'login.html'}, 'login'),
+    (r'^accounts/logout/$', 'view_logout', {'logout_template': 'logout.html'}, 'logout')
+)
+

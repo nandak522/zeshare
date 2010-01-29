@@ -5,5 +5,6 @@ urlpatterns = patterns('quest.views',
     (r'^recent/$', 'view_recent_snippets', {'recent_snippets_template':'recent_snippets.html'}, 'recent_snippets'),
     (r'^popular/$', 'view_popular_snippets', {'popular_snippets_template':'popular_snippets.html'}, 'popular_snippets'),
     (r'^(?P<snippet_id>\d+)/(?P<snippet_slug>[\w-]+)/$', 'view_snippet_profile', {'snippet_profile_template':'snippet_profile.html'}, 'snippet_profile'),
-    (r'^add/$', 'view_add_snippet', {'add_snippet_template':'add_snippet.html', 'snippet_profile_template':'snippet_profile.html'}, 'add_snippet')
+    (r'^add/$', 'view_add_snippet', {'add_snippet_template':'add_snippet.html', 'snippet_profile_template':'snippet_profile.html'}, 'add_snippet'),
+    (r'^(?P<snippet_id>\d+)/(?P<snippet_slug>[\w-]+)/modify/$', 'view_modify_snippet', {'modify_snippet_template':'add_snippet.html', 'snippet_profile_template':'snippet_profile.html'}, 'modify_snippet'),
 )

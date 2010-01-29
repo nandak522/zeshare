@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Manager as BaseModelManager
 
 class BaseModel(models.Model):
     id = models.AutoField(primary_key=True)
@@ -7,3 +8,5 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['-created_on']
+        get_latest_by = 'created_on'
