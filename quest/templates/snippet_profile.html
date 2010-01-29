@@ -5,8 +5,12 @@
 <link rel="stylesheet" type="text/css" media="print" href="/site_media/css/blueprint/print.css"/>
 {%endblock%}
 {%block content%}
+{{message}}
 This is the snippet profile page<br/>
 Title:{{snippet.title|title}}<br/>
+{%if owner %}
+Actions:<a href='{%url modify_snippet%}'>Modify Snippet</a>
+{%endif%}
 <div class='snippet'>{{snippet.highlight|safe}}</div>
 <a href="{%url all_snippets%}">All Snippets</a>
 {%endblock%}

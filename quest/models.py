@@ -1,10 +1,16 @@
+from django.contrib.auth.models import AnonymousUser
 from django.db import models
-from utils.models import BaseModel
+from django.template.defaultfilters import striptags
 from pygments import formatters
 from pygments import highlight as syntax_highlight
 from pygments.lexers import get_lexer_by_name
-from django.template.defaultfilters import striptags
+from users.models import UserProfile
 from utils import language_choices
+from utils.models import BaseModel, BaseModelManager
+from django.template.defaultfilters import slugify
+
+class UserAlreadyCreatedSnippetException(Exception):
+    pass
 
 class ActiveSnippetManager(models.Manager):
     def get_query_set(self):
@@ -19,19 +25,18 @@ class SnippetManager(models.Manager):
         title = striptags(title)
         explanation = striptags(explanation)
         code = striptags(code)
-        from django.template.defaultfilters import slugify
         snippet = Snippet(title=title, slug=slugify(title), explanation=explanation, code=code, lang=lang, public=public, active=active)
         snippet.save()
         return snippet
 
-    def update_snippet(self, snippet, **params):
+    def update_snippet(self, existing_snippet, **params):
         for key,value in params.items():
             if isinstance(value, str) or isinstance(value, unicode):
                 params[key] = striptags(value)
         for param in params:
-            setattr(snippet, param, params[param])
-        snippet.save()
-        return Snippet.objects.get(id=snippet.id)
+            setattr(existing_snippet, param, params[param])
+        existing_snippet.save()
+        return Snippet.objects.get(id=existing_snippet.id)
 
 class Snippet(BaseModel):
     title = models.CharField(max_length=100, db_index=True)
@@ -45,11 +50,16 @@ class Snippet(BaseModel):
     publicsnippets = PublicSnippetManager()
     activesnippets = ActiveSnippetManager()
 
-    class Meta:
-        ordering = ['-created_on']
-
     def __unicode__(self):
         return self.title
+    
+    def get_owner(self):
+        try:
+            return UserProfileSnippetMembership.objects.get(snippet=self).userprofile
+        except UserProfileSnippetMembership.DoesNotExist:
+            return AnonymousUser()
+    
+    owner = property(get_owner)
     
     def save(self, force_insert=False, force_update=False):
         self.title = striptags(self.title)
@@ -113,3 +123,25 @@ class Snippet(BaseModel):
         self.public = not self.public
         self.save()
         return self
+    
+class UserProfileSnippetMembershipManager(BaseModelManager):
+    def create_membership(self, userprofile, snippet):
+        if self.exists(userprofile=userprofile, snippet=snippet):
+            raise UserAlreadyCreatedSnippetException
+        membership = UserProfileSnippetMembership(userprofile=userprofile,
+                                                  snippet=snippet)
+        membership.save()
+        return membership
+    
+    def exists(self, userprofile, snippet):
+        if self.filter(userprofile=userprofile, snippet=snippet).count():
+            return True
+        return False
+    
+class UserProfileSnippetMembership(BaseModel):
+    userprofile = models.ForeignKey(UserProfile)
+    snippet = models.ForeignKey(Snippet)
+    objects = UserProfileSnippetMembershipManager()
+    
+    def __unicode__(self):
+        return self.userprofile, self.snippet.slug

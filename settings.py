@@ -66,6 +66,10 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
+AUTH_PROFILE_MODULE='users.UserProfile'
+
+AUTHENTICATION_BACKENDS = ('utils.authbackend.EmailBackend',)
+
 INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_PATH = os.getcwd()

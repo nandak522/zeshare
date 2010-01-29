@@ -1,7 +1,10 @@
 /*Global Styles*/
 #header{height:70px;}
 #site_header{font:normal 1.8em "Monospace",'sans-serif', 'Arial';}
-.header{background:#00223B;color:#FFF;}
+.header{background:#00223B;color:#FFF;padding-top:1em;}
+#header_toplinks{text-align:right;font-size:0.5em;}
+#header_toplinks a{color:#FFF;text-decoration:none;border-bottom:1px solid #666;}
+#header_toplinks a:hover{border-bottom:1px solid #FFF;}
 .footer{background:#00223B;color:#FFF;text-align:center;}
 
 /*Snippet Profile Page*/
