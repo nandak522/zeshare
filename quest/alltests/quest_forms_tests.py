@@ -11,6 +11,12 @@ class AddSnippetFormTests(TestCase):
         form = AddSnippetForm(form_data)
         self.assertTrue(form.is_valid())
         self.assertFalse(form.errors)
+        self.assertTrue(form.cleaned_data)
+        self.assertEquals(form.cleaned_data.get('title'), form_data['title'])
+        self.assertEquals(form.cleaned_data.get('explanation'), form_data['explanation'])
+        self.assertEquals(form.cleaned_data.get('code'), form_data['code'])
+        self.assertTrue(form.cleaned_data.get('public'))
+        self.assertEquals(form.cleaned_data.get('lang'), form_data['lang'])
 
     def test_add_snippet_form_invalid_submission(self):
         form_data = {'title':'',
