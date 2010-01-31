@@ -24,7 +24,7 @@ class UserProfileManager(BaseModelManager):
     def exists(self, **params):
         return self.filter(**params).count()
     
-    def update_userprofile(self, existing_userprofile, params):
+    def update_userprofile(self, existing_userprofile, **params):
         password = params.pop('password', '')
         if password:
             user = existing_userprofile.user 

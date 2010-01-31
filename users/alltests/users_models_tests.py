@@ -1,4 +1,4 @@
-from django.test import TestCase
+from utils import TestCase
 from users.models import UserProfile
 from django.template.defaultfilters import slugify
 
@@ -37,6 +37,9 @@ class UserProfileTests(TestCase):
                 'name': 'Nanda'}
         userprofile = UserProfile.objects.get(email=data['email'])
         password = data['password']
-        UserProfile.objects.update_userprofile(userprofile, data)
+        UserProfile.objects.update_userprofile(userprofile,
+                                               email=data['email'],
+                                               password=data['password'],
+                                               name=data['name'])
         self.assertTrue(userprofile.user.check_password(password))
         self.assertEquals(userprofile.name, data['name'])

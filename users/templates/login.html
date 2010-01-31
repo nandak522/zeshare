@@ -1,1 +1,10 @@
-This is the login page
+{%extends 'singlepane_base.html'%}
+{% block title %}Login Page{% endblock %}
+{%block content%}
+This is the user login page
+<form action="{%url login%}" method='POST'>
+{{form}}
+<input type='hidden' name='next' value="{{next}}"/>
+<input type='submit' name='submit' value="Log in"/>
+</form>
+{%endblock%}
