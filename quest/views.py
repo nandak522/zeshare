@@ -1,5 +1,5 @@
 from quest.models import Snippet
-from utils import response
+from utils import response, post_data
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from quest.decorators import is_snippetowner
@@ -38,7 +38,7 @@ def view_popular_snippets(request, popular_snippets_template):
 def view_add_snippet(request, add_snippet_template, snippet_profile_template):
     from quest.forms import AddSnippetForm
     if request.method == 'POST':
-        form = AddSnippetForm(request.POST.copy())
+        form = AddSnippetForm(post_data(request))
         if form.is_valid():
             snippet = _handle_snippet_creation(form)
             user = request.user
@@ -47,8 +47,8 @@ def view_add_snippet(request, add_snippet_template, snippet_profile_template):
                 from quest.models import UserProfileSnippetMembership
                 UserProfileSnippetMembership.objects.create_membership(userprofile=userprofile,
                                                                        snippet=snippet)
-            return response(request, snippet_profile_template, {'form': form,
-                                                                'snippet': snippet})
+            return response(request, snippet_profile_template, {'snippet': snippet,
+                                                                'owner': True})
     else:
         form = AddSnippetForm()
     return response(request, add_snippet_template, {'form': form})
@@ -56,24 +56,27 @@ def view_add_snippet(request, add_snippet_template, snippet_profile_template):
 @login_required
 @is_snippetowner
 def view_modify_snippet(request, snippet_id, snippet_slug, modify_snippet_template, snippet_profile_template):
+    modify = True
     from quest.forms import AddSnippetForm
     if request.method == 'POST':
-        form_data = {'title':'',
-                     'explanation':'',
-                     'code':'',
-                     'snippet':'',
-                     'lang':''}
-        form = AddSnippetForm(form_data)
+        form = AddSnippetForm(post_data(request))
+        existing_snippet = Snippet.objects.get(id=snippet_id)
         if form.is_valid():
-            existing_snippet = Snippet.objects.get(id=snippet_id)
             updated_snippet = _handle_snippet_updation(form, existing_snippet)
-            return response(request, snippet_profile_template, {'form': form,
-                                                                'snippet': updated_snippet})
+            return response(request, snippet_profile_template, {'snippet': updated_snippet,
+                                                                'owner': True})
+        return response(request, modify_snippet_template, {'form': form})
     else:
-        form = AddSnippetForm()
         snippet = Snippet.objects.get(id=snippet_id)
+        form_data = {'title':snippet.title,
+                     'explanation':snippet.explanation,
+                     'code':snippet.code,
+                     'public':snippet.public,
+                     'lang':snippet.lang}
+        form = AddSnippetForm(form_data)
         return response(request, modify_snippet_template, {'form':form,
-                                                           'snippet': snippet})
+                                                           'snippet': snippet,
+                                                           'modify':modify})
 
 def _handle_snippet_creation(form):
     snippet_data = form.cleaned_data
@@ -90,4 +93,9 @@ def _handle_snippet_creation(form):
 
 def _handle_snippet_updation(form, existing_snippet):
     snippet_data = form.cleaned_data
-    return Snippet.objects.update_snippet(existing_snippet, snippet_data)
+    return Snippet.objects.update_snippet(existing_snippet,
+                                          title=snippet_data.get('title'),
+                                          explanation=snippet_data.get('explanation'),
+                                          code=snippet_data.get('code'),
+                                          lang=snippet_data.get('lang'),
+                                          public=snippet_data.get('public'))

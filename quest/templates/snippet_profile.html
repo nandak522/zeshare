@@ -9,7 +9,7 @@
 This is the snippet profile page<br/>
 Title:{{snippet.title|title}}<br/>
 {%if owner %}
-Actions:<a href='{%url modify_snippet%}'>Modify Snippet</a>
+Actions:<a href='{%url modify_snippet snippet.id snippet.slug%}'>Modify Snippet</a>
 {%endif%}
 <div class='snippet'>{{snippet.highlight|safe}}</div>
 <a href="{%url all_snippets%}">All Snippets</a>

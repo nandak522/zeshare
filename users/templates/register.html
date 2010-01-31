@@ -1,0 +1,10 @@
+{%extends 'singlepane_base.html'%}
+{% block title %}Registration Page{% endblock %}
+{%block content%}
+This is the user registration page
+<form action="{%url register%}" method='POST'>
+{{form}}
+<input type='hidden' name='next' value="{{next}}"/>
+<input type='submit' name='submit' value="Create my Account"/>
+</form>
+{%endblock%}

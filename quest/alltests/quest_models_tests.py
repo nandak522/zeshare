@@ -1,8 +1,8 @@
-from django.test import TestCase
+from utils import TestCase
 from quest.models import Snippet
 from users.models import UserProfile
 
-class SnippetTests(TestCase):
+class SnippetCRUDTests(TestCase):
     fixtures = []
 
     def test_create_snippet(self):

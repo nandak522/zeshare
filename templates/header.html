@@ -6,10 +6,9 @@
 	           Welcome , {%firstof userprofile.name userprofile.email%}&nbsp;|&nbsp;<a href='{%url logout%}'>Logout</a>
 	        {%endwith%}
 	    {%else%}
-	       <a href='{%url login%}'>Login</a>
+	       <a href='{%url register%}'>Register</a>&nbsp;|&nbsp;<a href='{%url login%}'>Login</a>
         {%endif%}
         &nbsp;|&nbsp;
         <a href='/site_media/html/about.html'>About</a>
     </div>
-    
 </div>

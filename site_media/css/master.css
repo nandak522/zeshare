@@ -9,4 +9,6 @@
 
 /*Snippet Profile Page*/
 .linenodiv a{color:#FFF;text-decoration:none;}
-.snippet{background:#00223B;padding:0.5em 0;font-size:13px;color:#F8F8F2;font-family:monospace;overflow:auto;}
+.code{background:#00223B;color:#F8F8F2;}
+.snippet{padding:0.5em 0;font-size:13px;font-family:monospace;overflow:auto;}
+.linenos{background:#00224B;color:#F8F8F2;text-align:right;width:2%;}

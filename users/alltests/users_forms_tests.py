@@ -1,4 +1,4 @@
-from django.test import TestCase
+from utils import TestCase
 
 class RegistrationFormTests(TestCase):
     def test_user_submits_valid_form(self):
@@ -39,17 +39,18 @@ class RegistrationFormTests(TestCase):
         self.assertFalse(form.errors.get('password'))
         
 class LoginFormTests(TestCase):
+    fixtures = ['UserLoginTests.json']
+    
     def test_user_submits_valid_data(self):
-        form_data = {'email': 'empty@gmail.com',
+        form_data = {'email': 'emptyuser@gmail.com',
                      'password': 'empty'}
         from users.forms import LoginForm
         form = LoginForm(form_data)
         self.assertTrue(form.is_valid())
-        self.assertFalse(form.errors)
         self.assertTrue(form.cleaned_data)
         self.assertEquals(form.cleaned_data.get('email'), form_data['email'])
         self.assertEquals(form.cleaned_data.get('password'), form_data['password'])
-        
+    
     def test_user_submits_empty_form(self):
         form_data = {'email': '',
                      'password': ''}
@@ -61,10 +62,9 @@ class LoginFormTests(TestCase):
         self.assertTrue(form.errors.get('password'))
         
     def test_user_submits_invalid_data(self):
-        form_data = {'email': 'empty@',
-                     'password': 'empty'}
         from users.forms import LoginForm
-        form = LoginForm(form_data)
-        self.assertFalse(form.is_valid())
-        self.assertTrue(form.errors)
-        self.assertTrue(form.errors.get('email'))
+        for email in ('empty@', 'nonexistantuser@gmail.com'):
+            form = LoginForm({'email': email, 'password': 'empty'})
+            self.assertFalse(form.is_valid())
+            self.assertTrue(form.errors)
+            self.assertTrue(form.errors.get('email'))

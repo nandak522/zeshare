@@ -1,4 +1,4 @@
-from django.test import TestCase
+from utils import TestCase
 
 class AddSnippetFormTests(TestCase):
     def test_add_snippet_form_valid_submission(self):
