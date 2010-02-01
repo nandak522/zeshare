@@ -1,4 +1,6 @@
 from utils import TestCase
+from quest.forms import SearchSnippetForm
+from quest.forms import AddSnippetForm
 
 class AddSnippetFormTests(TestCase):
     def test_add_snippet_form_valid_submission(self):
@@ -7,7 +9,6 @@ class AddSnippetFormTests(TestCase):
                      'code':'''Hey this is nothing''',
                      'public':True,
                      'lang':'py'}
-        from quest.forms import AddSnippetForm
         form = AddSnippetForm(form_data)
         self.assertTrue(form.is_valid())
         self.assertFalse(form.errors)
@@ -24,9 +25,25 @@ class AddSnippetFormTests(TestCase):
                      'code':'''''',
                      'public':None,
                      'lang':'py'}
-        from quest.forms import AddSnippetForm
         form = AddSnippetForm(form_data)
         self.assertTrue(form.errors)
         self.assertTrue(form.errors.get('title'))
         self.assertTrue(form.errors.get('explanation'))
         self.assertTrue(form.errors.get('code'))
+        
+class SearchSnippetFormTests(TestCase):
+    def test_search_snippet_form_valid_submission(self):
+        form_data = {'query': 'loop'}
+        form = SearchSnippetForm(form_data)
+        self.assertTrue(form.is_valid())
+        self.assertFalse(form.errors)
+        self.assertTrue(form.cleaned_data)
+        cleaned_data = form.cleaned_data
+        self.assertEquals(cleaned_data.get('query'), form_data['query'])
+        
+    def test_search_snippet_form_invalid_submission(self):
+        form_data = {'query': ''}
+        form = SearchSnippetForm(form_data)
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors)
+        self.assertTrue(form.errors.get('query'))

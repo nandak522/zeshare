@@ -181,3 +181,44 @@ class ModifySnippetPageTests(TestCase):
         context = response.context[0]
         form = context.get('form')
         self.assertTrue(form.errors.get('title'))
+        
+class SnippetSearchPageTests(TestCase):
+    fixtures = ['SnippetSearchPageTests.json']
+    
+    def test_search_snippetpage_url(self):
+        response = self.client.get(path=url_reverse('quest.views.view_search_snippets'))
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'search_snippets.html')
+        context = response.context[0]
+        form = context.get('form', None)
+        self.assertTrue(form)
+        self.assertFalse(form.errors)
+    
+    def test_search_snippetpage_valid_submission(self):
+        form_data = {'query': 'list'}
+        response = self.client.post(path=url_reverse('quest.views.view_search_snippets'),
+                                    data=form_data)
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'search_snippets.html')
+        context = response.context[0]
+        form = context.get('form', None)
+        self.assertTrue(form)
+        self.assertFalse(form.errors)
+        search_results = context.get('snippets', [])
+        self.assertTrue(search_results)
+        snippets = search_results.object_list
+        self.assertTrue(form_data['query'] in snippets[0]['slug'])
+    
+    def test_search_snippetpage_invalid_submission(self):
+        response = self.client.post(path=url_reverse('quest.views.view_search_snippets'),
+                                    data={'query': ''})
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'search_snippets.html')
+        context = response.context[0]
+        form = context.get('form', None)
+        self.assertTrue(form)
+        self.assertTrue(form.errors)
+        self.assertTrue(form.errors.get('query'))

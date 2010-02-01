@@ -1,0 +1,29 @@
+{%extends 'singlepane_base.html'%}
+{%block title%}Search Snippets{%endblock%}
+{%block content%}
+This page is used for searching the code snippets<br/>
+<h2>Search Snippets</h2>
+{{form.errors}}
+<form action='.' method='POST'>
+{{form}}
+<input type='submit' value='Search Snippets' name='submit'/>
+</form>
+{%with snippets.object_list as snippet_results%}
+	{%if snippet_results%}
+	    <ul>
+	    {%for snippet in snippet_results%}
+	        <li><a href="{%url snippet_profile snippet_id=snippet.id snippet_slug=snippet.slug%}">{{snippet.title|title}}</a></li>
+		{%endfor%}
+		{%block pagination%}
+			{%if snippets.has_previous%}
+			  <a href='?page={{snippets.previous_page_number}}'>Previous</a>
+			{%endif%}
+			  <b>You are at {{snippets.number}} page</b>
+			{%if snippets.has_next%}
+			  <a href='?page={{snippets.next_page_number}}'>Next</a>
+			{%endif%}
+		{%endblock%}
+		</ul>
+	{%endif%}
+{%endwith%}
+{%endblock%}

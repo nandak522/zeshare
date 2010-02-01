@@ -3,12 +3,12 @@ from utils import response, post_data
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from quest.decorators import is_snippetowner
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
 
 def view_all_snippets(request, all_snippets_template):
-    from django.core.paginator import Paginator, EmptyPage, InvalidPage
     paginator = Paginator(Snippet.publicsnippets.values('id', 'title', 'active', 'slug'), 2)
     try:
         page = int(request.GET.get('page', 1))
@@ -99,3 +99,23 @@ def _handle_snippet_updation(form, existing_snippet):
                                           code=snippet_data.get('code'),
                                           lang=snippet_data.get('lang'),
                                           public=snippet_data.get('public'))
+    
+def view_search_snippets(request, search_snippets_template):
+    from quest.forms import SearchSnippetForm
+    if request.method == 'POST':
+        form = SearchSnippetForm({'query': request.POST.get('query')})
+        if form.is_valid():
+            query = form.cleaned_data.get('query')
+            paginator = Paginator(Snippet.objects.filter(title__icontains=query).values('id', 'title', 'active', 'slug'), 2)
+            try:
+                page = int(request.GET.get('page', 1))
+            except ValueError:
+                page = 1
+            try:
+                snippets = paginator.page(page)
+            except (EmptyPage, InvalidPage):
+                snippets = paginator.page(paginator.num_pages)
+            return response(request, search_snippets_template, {'form': form, 'snippets': snippets})
+    else:
+        form = SearchSnippetForm()
+    return response(request, search_snippets_template, {'form': form, 'snippets': []})
