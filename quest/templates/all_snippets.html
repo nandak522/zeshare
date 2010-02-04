@@ -3,6 +3,7 @@
 {%block content%}
 This page contains all the snippets present in code share<br/>
 <ul>
+<!-- There is a reason why I didn't use snippet.get_absolute_url -->
 {%for snippet in snippets.object_list%}
     <li><a href="{%url snippet_profile snippet_id=snippet.id snippet_slug=snippet.slug%}">{{snippet.title|title}}</a></li>
 {%empty%}

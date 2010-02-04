@@ -46,3 +46,7 @@ class UserProfile(BaseModel):
     
     def __unicode__(self):
         return self.email
+    
+    def submitted_snippets(self):
+        return [membership.snippet for membership in self.userprofilesnippetmembership_set.select_related()]
+        

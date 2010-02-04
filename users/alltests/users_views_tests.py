@@ -59,3 +59,30 @@ class UserLoginTests(TestCase):
             form = context.get('form')
             self.assertTrue(form.errors)
             self.assertTrue(form.errors.get('email'))
+            
+class UserProfilePageTests(TestCase):
+    fixtures = ['UserProfilePageTests.json']
+    
+    def test_userprofilepage_success_response(self):
+        userprofile = UserProfile.objects.get(email='madhav.bnk@gmail.com')
+        response = self.client.get(path=url_reverse('users.views.view_userprofile', args=(userprofile.id, userprofile.slug)))
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'user_profile.html')
+        context = response.context[0]
+        self.assertTrue(context.has_key('userprofile'))
+        userprofile = context.get('userprofile')
+        self.assertEquals(userprofile, UserProfile.objects.get(email='madhav.bnk@gmail.com'))
+        self.assertTrue(context.has_key('submitted_snippets'))
+        submitted_snippets = context.get('submitted_snippets')
+        from quest.models import Snippet
+        snippet = Snippet.objects.get(slug=submitted_snippets[0]['slug'])
+        snippet_submitter = snippet.userprofilesnippetmembership_set.all()[0]
+        self.assertEquals(userprofile, snippet_submitter.userprofile)
+    
+    def test_invalidlink_for_userprofilepage(self):
+        userprofile = UserProfile.objects.get(email='madhav.bnk@gmail.com')
+        response = self.client.get(path=url_reverse('users.views.view_userprofile', args=(userprofile.id, 'madness')))
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 404)
+        

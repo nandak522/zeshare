@@ -30,7 +30,7 @@ class SnippetManager(models.Manager):
         return snippet
 
     def update_snippet(self, existing_snippet, **params):
-        for key,value in params.items():
+        for key, value in params.items():
             if isinstance(value, str) or isinstance(value, unicode):
                 params[key] = striptags(value)
         for param in params:
@@ -52,22 +52,26 @@ class Snippet(BaseModel):
 
     def __unicode__(self):
         return self.title
-    
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('snippet_profile', (self.id, self.slug))
+
     def get_owner(self):
         try:
             return UserProfileSnippetMembership.objects.get(snippet=self).userprofile
         except UserProfileSnippetMembership.DoesNotExist:
             return AnonymousUser()
-    
+
     owner = property(get_owner)
-    
+
     def save(self, force_insert=False, force_update=False):
         self.title = striptags(self.title)
         self.explanation = striptags(self.explanation)
         self.code = striptags(self.code)
-        super(Snippet, self).save(force_insert=force_insert, 
+        super(Snippet, self).save(force_insert=force_insert,
                                   force_update=force_update)
-        
+
     def get_lexer(self):
         if self.lang == 'py':
             return get_lexer_by_name('python')
@@ -78,12 +82,12 @@ class Snippet(BaseModel):
         elif self.lang == 'html':
             return get_lexer_by_name('html')
         else:
-            raise NotImplementedError 
-    
+            raise NotImplementedError
+
     def highlight(self):
         return syntax_highlight(self.code,
                                 self.get_lexer(),
-                                formatters.HtmlFormatter(linenos='table', 
+                                formatters.HtmlFormatter(linenos='table',
                                                          lineanchors='line',
                                                          anchorlinenos=True))
 
@@ -123,7 +127,7 @@ class Snippet(BaseModel):
         self.public = not self.public
         self.save()
         return self
-    
+
 class UserProfileSnippetMembershipManager(BaseModelManager):
     def create_membership(self, userprofile, snippet):
         if self.exists(userprofile=userprofile, snippet=snippet):
@@ -132,16 +136,16 @@ class UserProfileSnippetMembershipManager(BaseModelManager):
                                                   snippet=snippet)
         membership.save()
         return membership
-    
+
     def exists(self, userprofile, snippet):
         if self.filter(userprofile=userprofile, snippet=snippet).count():
             return True
         return False
-    
+
 class UserProfileSnippetMembership(BaseModel):
     userprofile = models.ForeignKey(UserProfile)
     snippet = models.ForeignKey(Snippet)
     objects = UserProfileSnippetMembershipManager()
-    
+
     def __unicode__(self):
-        return self.userprofile, self.snippet.slug
+        return '%s - %s' % (self.userprofile, self.snippet.slug)

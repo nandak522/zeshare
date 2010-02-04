@@ -1,1 +1,24 @@
-This is the public profile page
+{%extends 'singlepane_base.html'%}
+{% block title %}User {{userprofile.name|title}}{% endblock %}
+{%block content%}
+<h3>This is the profile page</h3>
+<div class='column span-24 last'>
+<table>
+<tr><td class='strong'>Name:</td><td>{{userprofile.name|title}}</td></tr>
+<tr><td>Email:</td><td><a href='mailto:{{userprofile.email}}'>{{userprofile.email}}</a></td></tr>
+<tr><td>Contributed Snippets</td>
+<td>
+<ul>
+{%for snippet in submitted_snippets%}
+    <li><a href="{%url snippet_profile snippet_id=snippet.id snippet_slug=snippet.slug%}">{{snippet.title|title}}</a></li>
+{%empty%}
+No Contributed Snippets, as of now
+{%endfor%}
+</ul>
+</td>
+</tr>
+</table>
+</div>
+<br/><br/><br/>
+<a href="{%url all_users%}">All Users</a>
+{%endblock%}
