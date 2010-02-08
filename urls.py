@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
+from django.template import add_to_builtins
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -24,3 +25,4 @@ urlpatterns += patterns('users.views',
     (r'^accounts/logout/$', 'view_logout', {'logout_template': 'logout.html'}, 'logout')
 )
 
+add_to_builtins("utils.templatetags.tags")

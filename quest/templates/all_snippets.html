@@ -1,7 +1,7 @@
 {%extends 'singlepane_base.html'%}
-{%block title%}All Snippets{%endblock%}
+{%block title%}List Snippets{%endblock%}
 {%block content%}
-This page contains all the snippets present in code share<br/>
+<h3>List of Snippets</h3>
 <ul>
 <!-- There is a reason why I didn't use snippet.get_absolute_url -->
 {%for snippet in snippets.object_list%}
@@ -10,13 +10,5 @@ This page contains all the snippets present in code share<br/>
     <li>No Snippets as of now</li>
 {%endfor%}
 </ul>
-{%block pagination%}
-{%if snippets.has_previous%}
-<a href='?page={{snippets.previous_page_number}}'>Previous</a>
-{%endif%}
-<b>You are at {{snippets.number}} page</b>
-{%if snippets.has_next%}
-<a href='?page={{snippets.next_page_number}}'>Next</a>
-{%endif%}
-{%endblock%}
+{%pagination snippets%}
 {%endblock%}

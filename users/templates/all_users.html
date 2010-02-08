@@ -1,7 +1,7 @@
 {%extends 'singlepane_base.html'%}
 {%block title%}All Users{%endblock%}
 {%block content%}
-This page contains all the users present in code share<br/>
+<h3>List of Users</h3>
 <ul>
 {%for user in users.object_list%}
     <li><a href="{%url user_profile user_id=user.id user_slug_name=user.slug%}">{{user.name|title}}</a></li>
@@ -9,13 +9,5 @@ This page contains all the users present in code share<br/>
     <li>No Users as of now</li>
 {%endfor%}
 </ul>
-{%block pagination%}
-{%if users.has_previous%}
-<a href='?page={{users.previous_page_number}}'>Previous</a>
-{%endif%}
-<b>You are at {{users.number}} page</b>
-{%if users.has_next%}
-<a href='?page={{users.next_page_number}}'>Next</a>
-{%endif%}
-{%endblock%}
+{%pagination users%}
 {%endblock%}

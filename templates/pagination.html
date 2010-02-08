@@ -1,0 +1,7 @@
+{%if previous_page_number%}
+<a class="previous_page" href='?page={{previous_page_number}}'>Previous</a>
+{%endif%}
+<span class="current_page">You are @ {{current_page_number}} Page</span>
+{%if next_page_number%}
+<a class="next_page" href='?page={{next_page_number}}'>Next</a>
+{%endif%}
