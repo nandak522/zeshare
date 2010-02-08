@@ -1,10 +1,13 @@
 {%extends 'singlepane_base.html'%}
-{% block title %}Registration Page{% endblock %}
+{% block title %}Create a User Account{% endblock %}
 {%block content%}
-This is the user registration page
 <form action="{%url register%}" method='POST'>
-{{form}}
 <input type='hidden' name='next' value="{{next}}"/>
-<input type='submit' name='submit' value="Create my Account"/>
+<table class='form-table'>
+    <tr><td class='form-row'><label for="id_name">Name</label></td><td class='form-row'>{{form.name}}<br/>{{form.name.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_email">Email</label></td><td class='form-row'>{{form.email}}{{form.email.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_password">Password</label></td><td class='form-row'>{{form.password}}{{form.password.errors}}</td></tr>
+    <tr><td>&nbsp;</td><td><input type='submit' name='submit' value="Create my Account"/></td></tr>
+</table>
 </form>
 {%endblock%}

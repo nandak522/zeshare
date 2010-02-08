@@ -1,11 +1,17 @@
 {%extends 'singlepane_base.html'%}
-{%block title%}{%if modify%}Modify{%else%}Add{%endif%} Snippet{%endblock%}
+{%block title%}{%if modify%}Modify{%else%}Add a new{%endif%} Snippet{%endblock%}
 {%block content%}
-<b>{%if modify%}Modify{%else%}Add{%endif%} Snippet Form</b><br/>
-{{form.errors}}
+<b>{%if modify%}Modify{%else%}Add a new{%endif%} Snippet</b><br/>
 <form action="." method='POST'>
-{{form}}
-<input type='submit' name='submit' value='{%if modify%}Modify{%else%}Add{%endif%} Snippet'/>
+<table class='form-table'>
+    <tr><td class='form-row'><label for="id_title">Title</label></td><td class='form-row'>{{form.title}}<br/>{{form.title.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_explanation">Explanation</label></td><td class='form-row'>{{form.explanation}}{{form.explanation.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_code">Code</label></td><td class='form-row'>{{form.code}}{{form.code.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_public">Make Code Public</label></td><td class='form-row'>{{form.public}}{{form.public.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_lang">Language</label></td><td class='form-row'>{{form.lang}}{{form.lang.errors}}</td></tr>
+    <tr><td class='form-row'><label for="id_tags">Tags</label></td><td class='form-row'>{{form.tags}}{{form.tags.errors}}</td></tr>
+    <tr><td>&nbsp;</td><td><input type='submit' name='submit' value='{%if modify%}Modify{%else%}Add{%endif%} Snippet'/></td></tr>
+</table>
 </form>
 <a href='{%url all_snippets%}'>All Snippets</a>, <a href='{%url homepage%}'>Home</a>
 {%endblock%}

@@ -1,13 +1,14 @@
 from django.contrib.auth.models import AnonymousUser
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.template.defaultfilters import striptags
 from pygments import formatters
 from pygments import highlight as syntax_highlight
 from pygments.lexers import get_lexer_by_name
+from tagging.models import Tag
 from users.models import UserProfile
 from utils import language_choices
 from utils.models import BaseModel, BaseModelManager
-from django.template.defaultfilters import slugify
 
 class UserAlreadyCreatedSnippetException(Exception):
     pass
@@ -56,6 +57,18 @@ class Snippet(BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return ('snippet_profile', (self.id, self.slug))
+    
+    def tags(self):
+        Tag.objects.get_for_object(self)
+        return self
+    
+    def assign_tags(self, tags_text):
+        Tag.objects.update_tags(self, tags_text)
+        return self
+    
+    def clear_tags(self):
+        Tag.objects.update_tags(self, None)
+        return self
 
     def get_owner(self):
         try:

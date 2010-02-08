@@ -1,12 +1,11 @@
 {%extends 'singlepane_base.html'%}
-{%block title%}Search Snippets{%endblock%}
+{%block title%}Search Code Snippets{%endblock%}
 {%block content%}
-This page is used for searching the code snippets<br/>
-<h2>Search Snippets</h2>
-{{form.errors}}
 <form action='.' method='POST'>
-{{form}}
-<input type='submit' value='Search Snippets' name='submit'/>
+<table class='form-table'>
+    <tr><td class='form-row'><label for="id_query">Search</label></td><td class='form-row'>{{form.query}}{{form.query.errors}}</td></tr>
+    <tr><td>&nbsp;</td><td><input type='submit' value='Search Snippets' name='submit'/></td></tr>
+</table>
 </form>
 {%with snippets.object_list as snippet_results%}
 	{%if snippet_results%}

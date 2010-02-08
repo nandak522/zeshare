@@ -1,15 +1,28 @@
 /*Global Styles*/
+body{background:#00223B;}
+input[type="text"], input[type="password"], input.text, input.title, textarea, select{margin:0;}
+a{color:#00223B;text-decoration:none;border-bottom:1px dotted #00223B;}
+a:hover{color:#00223B;border-bottom:1px solid #00223B;}
+.container{background:#FFF;}
 #header{height:70px;}
 #site_header{font:normal 1.8em "Monospace",'sans-serif', 'Arial';}
 .header{background:#00223B;color:#FFF;padding-top:1em;}
-#header_toplinks{text-align:right;font-size:0.5em;}
-#footer_links{text-align:center;font-size:0.75em;}
-#header_toplinks a, #footer_links a{color:#FFF;text-decoration:none;border-bottom:1px solid #666;}
-#header_toplinks a:hover, #footer_links a:hover{border-bottom:1px solid #FFF;}
-.footer{background:#00223B;color:#FFF;text-align:center;height:24px;padding-top:0.25em;}
+#header_toplinks{text-align:right;font-size:0.5em;background:#FFF;padding:0.5em;}
+#footer_links{text-align:center;font-size:0.75em;color:#00223B;}
+.footer{border-top:1px solid #C0DFEC;text-align:center;height:24px;padding-top:0.25em;}
+#content{margin:1em;}
+ul.errorlist{font-size:0.75em;color:#FFF;background:#DB3425;list-style-type:none;margin:0;width:180px;padding:0.2em;}
+label{font:bold 0.80em "Trebuchet MS",'sans-serif', 'Arial';}
+.form-row{border-bottom:1px solid #EEE;}
+.form-table{width:200px;}
+.form-table td{vertical-align:top;}
 
 /*Snippet Profile Page*/
-.linenodiv a{color:#FFF;text-decoration:none;}
-.code{background:#00223B;color:#F8F8F2;}
+.linenodiv a{color:#00223B;text-decoration:none;border-bottom:0px;}
+.code{}*/
 .snippet{padding:0.5em 0;font-size:13px;font-family:monospace;overflow:auto;}
-.linenos{background:#00224B;color:#F8F8F2;text-align:right;width:2%;}
+.linenos{background:#F0F3F3;color:#00223B;text-align:right;width:2%;}
+.highlighttable{background:#F0F3F3;border-top:1px solid #CCC;border-bottom:1px solid #CCC;width:90%;}
+#snippet_description{font-size:0.75em;margin-bottom:4px;}
+
+/*Add Snippet Form*/
