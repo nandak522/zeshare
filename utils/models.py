@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models import Manager as BaseModelManager
+from tagging.models import Tag as BaseTag
+from tagging.models import TagManager as BaseTagManager
 
 class BaseModel(models.Model):
     id = models.AutoField(primary_key=True)

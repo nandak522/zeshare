@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'quest',
     'extensions',
     'utils',
+    'tagging',
     'debug_toolbar'
 )
 
@@ -98,3 +99,5 @@ ADMIN_USERNAME = 'zeadmin'
 ADMIN_PASSWORD = 'zeadmin'
 
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
+
+FORCE_LOWERCASE_TAGS = True

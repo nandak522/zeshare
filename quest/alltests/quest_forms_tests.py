@@ -8,7 +8,8 @@ class AddSnippetFormTests(TestCase):
                      'explanation':'Something goes in here',
                      'code':'''Hey this is nothing''',
                      'public':True,
-                     'lang':'py'}
+                     'lang':'py',
+                     'tags':'imports python'}
         form = AddSnippetForm(form_data)
         self.assertTrue(form.is_valid())
         self.assertFalse(form.errors)

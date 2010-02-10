@@ -19,13 +19,14 @@ label{font:bold 0.80em "Trebuchet MS",'sans-serif', 'Arial';}
 .previous_page, .next_page{padding:4px;border:1px solid #CCC;color:#00223B;}
 .previous_page:hover, .next_page:hover{padding:4px;border:1px solid #00223B;color:#FFF;background:#00223B;}
 .current_page{padding:4px;font-weight:bold;border:1px solid #CCC;}
+.tag{background:#00223B;color:#FFF;padding:2px 4px;}
 
 /*Snippet Profile Page*/
 .linenodiv a{color:#00223B;text-decoration:none;border-bottom:0px;}
-.code{}*/
-.snippet{padding:0.5em 0;font-size:13px;font-family:monospace;overflow:auto;}
+.snippet{padding:0.5em 0;font-size:1.1em;font-family:monospace;overflow:auto;margin-bottom:8px;}
 .linenos{background:#F0F3F3;color:#00223B;text-align:right;width:2%;}
-.highlighttable{background:#F0F3F3;border-top:1px solid #CCC;border-bottom:1px solid #CCC;width:90%;}
-#snippet_description{font-size:0.75em;margin-bottom:4px;}
+.highlighttable{background:#F0F3F3;border-top:1px solid #CCC;border-bottom:1px solid #CCC;}
+#snippet_description{font-size:0.75em;margin-bottom:4px;background:#F0F3F3;padding:2px;}
+#snippet_content{width:97%;}
 
 /*Add Snippet Form*/

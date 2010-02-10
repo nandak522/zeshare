@@ -5,10 +5,15 @@ from django.template.defaultfilters import striptags
 from pygments import formatters
 from pygments import highlight as syntax_highlight
 from pygments.lexers import get_lexer_by_name
-from tagging.models import Tag
 from users.models import UserProfile
 from utils import language_choices
-from utils.models import BaseModel, BaseModelManager
+from utils.models import BaseModel, BaseModelManager, BaseTag, BaseTagManager
+
+class Tag(BaseTag, BaseModel):
+    objects = BaseTagManager()
+    
+    class Meta:
+        ordering = ['created_on']
 
 class UserAlreadyCreatedSnippetException(Exception):
     pass
@@ -22,18 +27,21 @@ class PublicSnippetManager(models.Manager):
         return super(PublicSnippetManager, self).get_query_set().filter(public=True)
 
 class SnippetManager(models.Manager):
-    def create_snippet(self, title, explanation, code, lang, public=True, active=True):
+    def create_snippet(self, title, explanation, code, lang, tags, public=True, active=True):
         title = striptags(title)
         explanation = striptags(explanation)
         code = striptags(code)
         snippet = Snippet(title=title, slug=slugify(title), explanation=explanation, code=code, lang=lang, public=public, active=active)
         snippet.save()
+        Tag.objects.update_tags(snippet, tags)
         return snippet
 
     def update_snippet(self, existing_snippet, **params):
         for key, value in params.items():
             if isinstance(value, str) or isinstance(value, unicode):
                 params[key] = striptags(value)
+        if params.has_key('tags'):
+            Tag.objects.update_tags(existing_snippet, params.pop('tags'))
         for param in params:
             setattr(existing_snippet, param, params[param])
         existing_snippet.save()
@@ -59,8 +67,7 @@ class Snippet(BaseModel):
         return ('snippet_profile', (self.id, self.slug))
     
     def tags(self):
-        Tag.objects.get_for_object(self)
-        return self
+        return Tag.objects.get_for_object(self)
     
     def assign_tags(self, tags_text):
         Tag.objects.update_tags(self, tags_text)
@@ -140,7 +147,7 @@ class Snippet(BaseModel):
         self.public = not self.public
         self.save()
         return self
-
+    
 class UserProfileSnippetMembershipManager(BaseModelManager):
     def create_membership(self, userprofile, snippet):
         if self.exists(userprofile=userprofile, snippet=snippet):

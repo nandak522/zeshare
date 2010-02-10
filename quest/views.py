@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from quest.decorators import is_snippetowner
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse as url_reverse
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
@@ -46,12 +48,19 @@ def view_add_snippet(request, add_snippet_template, snippet_profile_template):
                 userprofile = user.get_profile()
                 from quest.models import UserProfileSnippetMembership
                 UserProfileSnippetMembership.objects.create_membership(userprofile=userprofile,
-                                                                       snippet=snippet)
+                                                                      snippet=snippet)
+            #TODO:Created Message
             return response(request, snippet_profile_template, {'snippet': snippet,
                                                                 'owner': True})
     else:
         form = AddSnippetForm()
     return response(request, add_snippet_template, {'form': form})
+
+def view_delete_snippet(request, snippet_id, snippet_slug):
+    existing_snippet = get_object_or_404(Snippet, id=int(snippet_id), slug=snippet_slug)
+    existing_snippet.delete()
+    #TODO:It should tell a message telling the snippet is deleted
+    return HttpResponseRedirect(redirect_to=HttpResponseRedirect(redirect_to=url_reverse('quest.views.view_all_snippets')))
 
 @login_required
 @is_snippetowner
@@ -63,6 +72,7 @@ def view_modify_snippet(request, snippet_id, snippet_slug, modify_snippet_templa
         existing_snippet = Snippet.objects.get(id=snippet_id)
         if form.is_valid():
             updated_snippet = _handle_snippet_updation(form, existing_snippet)
+            #TODO:Updated Message
             return response(request, snippet_profile_template, {'snippet': updated_snippet,
                                                                 'owner': True})
         return response(request, modify_snippet_template, {'form': form})
@@ -72,7 +82,8 @@ def view_modify_snippet(request, snippet_id, snippet_slug, modify_snippet_templa
                      'explanation':snippet.explanation,
                      'code':snippet.code,
                      'public':snippet.public,
-                     'lang':snippet.lang}
+                     'lang':snippet.lang,
+                     'tags':" ".join([tag.name for tag in snippet.tags()])}
         form = AddSnippetForm(form_data)
         return response(request, modify_snippet_template, {'form':form,
                                                            'snippet': snippet,
@@ -85,11 +96,13 @@ def _handle_snippet_creation(form):
     explanation = snippet_data.get('explanation')
     public = snippet_data.get('public')
     lang = snippet_data.get('lang')
+    tags = snippet_data.get('tags')
     return Snippet.objects.create_snippet(title=title,
-                                             explanation=explanation,
-                                             code=code,
-                                             lang=lang,
-                                             public=public)
+                                          explanation=explanation,
+                                          code=code,
+                                          lang=lang,
+                                          public=public,
+                                          tags=tags)
 
 def _handle_snippet_updation(form, existing_snippet):
     snippet_data = form.cleaned_data
@@ -98,7 +111,8 @@ def _handle_snippet_updation(form, existing_snippet):
                                           explanation=snippet_data.get('explanation'),
                                           code=snippet_data.get('code'),
                                           lang=snippet_data.get('lang'),
-                                          public=snippet_data.get('public'))
+                                          public=snippet_data.get('public'),
+                                          tags=snippet_data.get('tags'))
     
 def view_search_snippets(request, search_snippets_template):
     from quest.forms import SearchSnippetForm
@@ -106,6 +120,7 @@ def view_search_snippets(request, search_snippets_template):
         form = SearchSnippetForm({'query': request.POST.get('query')})
         if form.is_valid():
             query = form.cleaned_data.get('query')
+            #TODO:Should also support tagbased search
             paginator = Paginator(Snippet.objects.filter(title__icontains=query).values('id', 'title', 'active', 'slug'), 2)
             try:
                 page = int(request.GET.get('page', 1))
