@@ -38,29 +38,34 @@ def view_popular_snippets(request, popular_snippets_template):
     raise NotImplementedError
 
 def view_add_snippet(request, add_snippet_template, snippet_profile_template):
+    user = request.user
     from quest.forms import AddSnippetForm
     if request.method == 'POST':
         form = AddSnippetForm(post_data(request))
         if form.is_valid():
             snippet = _handle_snippet_creation(form)
-            user = request.user
+            owner = False
             if user.is_authenticated():
                 userprofile = user.get_profile()
+                owner = True
                 from quest.models import UserProfileSnippetMembership
                 UserProfileSnippetMembership.objects.create_membership(userprofile=userprofile,
                                                                       snippet=snippet)
             #TODO:Created Message
             return response(request, snippet_profile_template, {'snippet': snippet,
-                                                                'owner': True})
+                                                                'owner': owner})
     else:
         form = AddSnippetForm()
+        if not user.is_authenticated():
+            form.fields.get('public').widget.attrs = {'readonly': True, 
+                                                      'disabled': 'disabled'}
     return response(request, add_snippet_template, {'form': form})
 
 def view_delete_snippet(request, snippet_id, snippet_slug):
     existing_snippet = get_object_or_404(Snippet, id=int(snippet_id), slug=snippet_slug)
     existing_snippet.delete()
     #TODO:It should tell a message telling the snippet is deleted
-    return HttpResponseRedirect(redirect_to=HttpResponseRedirect(redirect_to=url_reverse('quest.views.view_all_snippets')))
+    return HttpResponseRedirect(redirect_to=url_reverse('quest.views.view_all_snippets'))
 
 @login_required
 @is_snippetowner

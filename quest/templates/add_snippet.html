@@ -1,7 +1,7 @@
 {%extends 'singlepane_base.html'%}
 {%block title%}{%if modify%}Modify{%else%}Add a new{%endif%} Snippet{%endblock%}
 {%block content%}
-<b>{%if modify%}Modify{%else%}Add a new{%endif%} Snippet</b><br/>
+<h4>{%if modify%}Modify Snippet{%else%}Add a new Snippet.<br/><span class='small_text'>( You are anonymous! Which means, this script will be public! )</span>{%endif%}</h4>
 <form action="." method='POST'>
 <table class='form-table'>
     <tr><td class='form-row'><label for="id_title">Title</label></td><td class='form-row'>{{form.title}}<br/>{{form.title.errors}}</td></tr>
@@ -13,5 +13,5 @@
     <tr><td>&nbsp;</td><td><input type='submit' name='submit' value='{%if modify%}Modify{%else%}Add{%endif%} Snippet'/></td></tr>
 </table>
 </form>
-<a href='{%url all_snippets%}'>All Snippets</a>, <a href='{%url homepage%}'>Home</a>
+<a href='{%url all_snippets%}'>All Snippets</a>
 {%endblock%}
