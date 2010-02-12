@@ -7,7 +7,7 @@
 {%for snippet in snippets.object_list%}
     <li><a href="{%url snippet_profile snippet_id=snippet.id snippet_slug=snippet.slug%}">{{snippet.title|title}}</a></li>
 {%empty%}
-    <li>No Snippets as of now</li>
+    <li>No Snippets as of now. <a href='{%url add_snippet%}'>Want to create ?</a></li>
 {%endfor%}
 </ul>
 {%pagination snippets%}
