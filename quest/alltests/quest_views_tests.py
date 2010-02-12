@@ -70,11 +70,7 @@ class AddSnippetPage_Tests(TestCase):
         self.assertEquals(snippet.code, form_data.get('code'))
         self.assertTrue(snippet.public)
         self.assertEquals(snippet.lang, form_data.get('lang'))
-        self.assertEquals(" ".join([tag.name for tag in snippet.tags()]) , form_data.get('tags'))
-#        from utils import print_json
-#        from tagging.models import Tag, TaggedItem
-#        print_json(Tag.objects.all())
-#        print_json(TaggedItem.objects.all())
+        self.assertFalse(bool(set(form_data.get('tags').split()) - set([tag.name for tag in snippet.tags()])))
 
     def test_addsnippet_after_logging_in(self):
         login_done = self.client.login(username='madhav.bnk@gmail.com', password='madhav')
@@ -170,7 +166,7 @@ class ModifySnippetPageTests(TestCase):
         self.assertEquals(snippet, response.context[0].get('snippet'))
         snippet = Snippet.objects.latest()
         self.assertEquals(snippet.title, form_data['title'])
-        self.assertEquals(" ".join([tag.name for tag in snippet.tags()]) , form_data.get('tags'))
+        self.assertFalse(set(form_data.get('tags').split()) - set([tag.name for tag in snippet.tags()]))
 
     def test_modify_snippet_with_invalid_data(self):
         login_done = self.client.login(username='madhav.bnk@gmail.com', password='madhav')

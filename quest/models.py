@@ -7,13 +7,8 @@ from pygments import highlight as syntax_highlight
 from pygments.lexers import get_lexer_by_name
 from users.models import UserProfile
 from utils import language_choices
-from utils.models import BaseModel, BaseModelManager, BaseTag, BaseTagManager
-
-class Tag(BaseTag, BaseModel):
-    objects = BaseTagManager()
-    
-    class Meta:
-        ordering = ['created_on']
+from utils.models import BaseModel, BaseModelManager
+from tagging.models import Tag
 
 class UserAlreadyCreatedSnippetException(Exception):
     pass
