@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
     (r'^snippets/', include('quest.urls')),
     (r'^users/', include('users.urls')),
+    (r'^feeds/', include('feeds.urls')),
 )
 
 urlpatterns += patterns('quest.views',

@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'extensions',
     'utils',
     'tagging',
+    'feeds',
     'debug_toolbar'
 )
 

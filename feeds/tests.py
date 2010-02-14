@@ -1,0 +1,1 @@
+from feeds.alltests.feeds_tests import *
