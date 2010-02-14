@@ -1,17 +1,20 @@
 <div id='site_header'>
     <div class='column span-10'><a style='font:normal 1em "Monospace","sans-serif", "Arial";text-decoration:none;color:#FFF;' href='{%url homepage%}'>ZeShare</a></div>
-    <div id='header_toplinks' class='column span-13'>
-        {%if user.is_authenticated%}
-	        {%with user.get_profile as userprofile%}
-	           Welcome , {%firstof userprofile.name userprofile.email%}&nbsp;|&nbsp;<a href='{%url logout%}'>Logout</a>
-	        {%endwith%}
-	    {%else%}
-	       <a href='{%url register%}'>Register</a>&nbsp;|&nbsp;<a href='{%url login%}'>Login</a>
-        {%endif%}
-        &nbsp;|&nbsp;
-        <a href='{%url search_snippets%}'>Search</a>
-        &nbsp;|&nbsp;
-        <a href='/site_media/html/about.html'>About</a>
+    <div id='header_toplinks' class='column push-1'>
+        <ul>
+            <li><a href='{%url homepage%}'>Home</a></li>
+	        {%if user.is_authenticated%}
+		        {%with user.get_profile as userprofile%}
+		           <li>Welcome , {%firstof userprofile.name userprofile.email%}</li>
+		           <li><a href='{%url logout%}'>Logout</a></li>
+		        {%endwith%}
+		    {%else%}
+		       <li><a href='{%url register%}'>Register</a></li>
+		       <li><a href='{%url login%}'>Login</a></li>
+	        {%endif%}
+	        <li><a href='{%url search_snippets%}'>Search</a></li>
+	        <li><a href='/site_media/html/about.html'>About</a></li>
+        </ul>
     </div>
     <div id='github_ribbon'>
     <a href="http://github.com/madhav/zeshare/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub" /></a>
