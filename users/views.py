@@ -63,6 +63,10 @@ def view_login(request, login_template, next=''):
         form = LoginForm(post_data(request))
         if form.is_valid():
             userprofile = UserProfile.objects.get(email=form.cleaned_data.get('email'))
+            if not userprofile.user.check_password(form.cleaned_data.get('password')):
+                from users.messages import USER_LOGIN_FAILURE
+                django_messages_framework.error(request, USER_LOGIN_FAILURE)
+                return response(request, login_template, {'form': form, 'next': next})
             from users.messages import USER_LOGIN_SUCCESSFUL
             django_messages_framework.success(request, USER_LOGIN_SUCCESSFUL)
             return _let_user_login(request,
