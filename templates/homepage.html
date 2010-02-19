@@ -1,26 +1,23 @@
 {%extends 'singlepane_base.html'%}
 {% block title %}Home{% endblock %}
 {%block content%}
-<p>ZeShare is a small "code sharing" * application. And can also be used as</p>
-<ul>
-<li>Ask business related questions</li>
-<li>Ask programming puzzles and let people crack it and find the talent</li>
-<li>Ask for volunteering to any project/work</li>
-<li>Any other lateral ways to use this? Please let me know!</li>
-</ul>
-* Supported Languages: 
-<ul>
-    <li>Python</li>
-    <li>Sql</li>
-    <li>Html</li>
-    <li>Javascript</li>
-</ul> 
-Browse:
-<br/>
-<ul>
-<li><a href="{%url all_snippets%}">All Snippets</a></li>
-<li><a href="{%url recent_snippets%}">Recently Added Snippets</a></li>
-<li><a href="{%url all_users%}">All Users</a></li>
-<li><a href="{%url add_snippet%}">Add Snippet</a></li>
-</ul>
+<div id='homepage_headers' class='span-13 column'>
+    <h3>ZeShare is a small "code sharing" app</h3>
+    <h5>And Can also be extended to:</h5>
+    <ul class='homepage_lists'>
+        <li>Ask programming puzzles, let people crack it, find the talent</li>
+		<li>Ask business questions</li>
+		<li>Ask for volunteering to any project/work</li>
+		<li>Any other lateral ways to use this? <a href='mailto:madhav.bnk@gmail.com'>Please let me know!</a></li>
+	</ul><br/>
+	<h5>Browse:</h5>
+    <ul class='homepage_lists'>
+		<li><a href="{%url all_snippets%}">All Snippets</a></li>
+		<li><a href="{%url all_users%}">All Users</a></li>
+		<li><a href="{%url add_snippet%}">Add Snippet</a></li>
+	</ul>	
+</div><!-- end of homepage_headers -->
+<div id='homepage_pix' class='span-9 column last'>
+    <img alt='code_snippet' src="/site_media/img/code_snippet_350x339.png"/>
+</div><!-- end of homepage_pix -->
 {%endblock%}
