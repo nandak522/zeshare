@@ -20,9 +20,9 @@ label{font:bold 0.80em "Trebuchet MS",'sans-serif', 'Arial';}
 .form-row{border-bottom:1px solid #EEE;}
 .form-table{width:200px;}
 .form-table td{vertical-align:top;}
-.previous_page, .next_page{padding:4px;border:1px solid #CCC;color:#00223B;}
+.previous_page, .next_page{padding:4px;border:1px solid #CCC;font-weight:bold;}
 .previous_page:hover, .next_page:hover{padding:4px;border:1px solid #00223B;color:#FFF;background:#00223B;}
-.current_page{padding:4px;font-weight:bold;border:1px solid #CCC;}
+.current_page{padding:4px;font-weight:bold;background:#00223B;color:#FFF;}
 .tag{background:#00223B;color:#FFF;padding:2px 4px;}
 .small_text{font-size:0.75em;color:#999;}
 .messages{margin:0 auto;list-style-type:none;width:50%;padding:0;text-align:center;font:bold 1.2em monospace;}
