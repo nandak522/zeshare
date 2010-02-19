@@ -12,7 +12,7 @@ def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
 
 def view_all_snippets(request, all_snippets_template):
-    paginator = Paginator(Snippet.publicsnippets.values('id', 'title', 'active', 'slug'), 2)
+    paginator = Paginator(Snippet.publicsnippets.values('id', 'title', 'active', 'slug'), 1)
     try:
         page = int(request.GET.get('page', 1))
     except ValueError:
