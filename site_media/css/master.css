@@ -43,3 +43,7 @@ label{font:bold 0.80em "Trebuchet MS",'sans-serif', 'Arial';}
 #snippet_content{width:97%;}
 
 /*Add Snippet Page*/
+
+/*Homepage*/
+#homepage_pix{border:2px dotted #00223B;padding:4px;}
+.homepage_lists{padding-left:2em;}
