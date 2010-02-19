@@ -6,6 +6,7 @@ from quest.decorators import is_snippetowner
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse as url_reverse
+import django_messages_framework
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
@@ -51,7 +52,8 @@ def view_add_snippet(request, add_snippet_template, snippet_profile_template):
                 from quest.models import UserProfileSnippetMembership
                 UserProfileSnippetMembership.objects.create_membership(userprofile=userprofile,
                                                                       snippet=snippet)
-            #TODO:Created Message
+            from quest.messages import SNIPPET_CREATION_SUCCESSFUL
+            django_messages_framework.success(request, SNIPPET_CREATION_SUCCESSFUL)
             return response(request, snippet_profile_template, {'snippet': snippet,
                                                                 'owner': owner})
     else:
@@ -77,7 +79,8 @@ def view_modify_snippet(request, snippet_id, snippet_slug, modify_snippet_templa
         existing_snippet = Snippet.objects.get(id=snippet_id)
         if form.is_valid():
             updated_snippet = _handle_snippet_updation(form, existing_snippet)
-            #TODO:Updated Message
+            from quest.messages import SNIPPET_UPDATION_SUCCESSFUL
+            django_messages_framework.success(request, SNIPPET_UPDATION_SUCCESSFUL)
             return response(request, snippet_profile_template, {'snippet': updated_snippet,
                                                                 'owner': True})
         return response(request, modify_snippet_template, {'form': form})

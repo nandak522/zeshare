@@ -7,6 +7,7 @@ from users.models import UserProfile
 from utils import response, post_data
 from users.decorators import anonymoususer
 from django.shortcuts import get_object_or_404
+import django_messages_framework 
 
 def view_all_users(request, all_users_template):
     from django.core.paginator import Paginator, EmptyPage, InvalidPage
@@ -28,6 +29,8 @@ def view_register(request, registration_template, next=''):
         form = RegistrationForm(post_data(request))
         if form.is_valid():
             userprofile = _handle_user_registration(form)
+            from users.messages import USER_SIGNUP_SUCCESSFUL
+            django_messages_framework.success(request, USER_SIGNUP_SUCCESSFUL)
             return _let_user_login(request,
                                    userprofile.user,
                                    email=form.cleaned_data.get('email'),
@@ -60,6 +63,8 @@ def view_login(request, login_template, next=''):
         form = LoginForm(post_data(request))
         if form.is_valid():
             userprofile = UserProfile.objects.get(email=form.cleaned_data.get('email'))
+            from users.messages import USER_LOGIN_SUCCESSFUL
+            django_messages_framework.success(request, USER_LOGIN_SUCCESSFUL)
             return _let_user_login(request,
                                    userprofile.user,
                                    email=form.cleaned_data.get('email'),
@@ -71,6 +76,8 @@ def view_login(request, login_template, next=''):
 
 def view_logout(request, logout_template):
     django_logout(request)
+    from users.messages import USER_LOGOUT_SUCCESSFUL
+    django_messages_framework.info(request, USER_LOGOUT_SUCCESSFUL)
     return HttpResponseRedirect(redirect_to=url_reverse('quest.views.view_homepage'))
 
 def view_userprofile(request, user_id, user_slug_name, userprofile_template):

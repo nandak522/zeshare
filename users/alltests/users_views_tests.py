@@ -47,7 +47,7 @@ class UserLoginTests(TestCase):
                              target_status_code=200)
         response = self.client.get(url_reverse('quest.views.view_homepage'))
         self.assertEquals(response.context[0].get('user').email, form_data['email'])
-
+        
     def test_invalid_userlogin(self):
         for email in ('invalidemailaddress', 'nonexistantuser@gmail.com'):
             response = self.client.post(path=url_reverse('users.views.view_login'),

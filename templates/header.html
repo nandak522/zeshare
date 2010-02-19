@@ -5,7 +5,7 @@
             <li><a href='{%url homepage%}'>Home</a></li>
 	        {%if user.is_authenticated%}
 		        {%with user.get_profile as userprofile%}
-		           <li>Welcome , {%firstof userprofile.name userprofile.email%}</li>
+		           <li>Hi , {%firstof userprofile.name userprofile.email%}</li>
 		           <li><a href='{%url logout%}'>Logout</a></li>
 		        {%endwith%}
 		    {%else%}

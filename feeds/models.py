@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+# Models module required so tests are discovered.

@@ -1,0 +1,2 @@
+SNIPPET_CREATION_SUCCESSFUL = 'Snippet is added!'
+SNIPPET_UPDATION_SUCCESSFUL = 'Snippet is updated!'

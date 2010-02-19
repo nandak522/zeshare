@@ -65,6 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_messages_framework.middleware.MessageMiddleware'
 #    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -93,6 +94,7 @@ INSTALLED_APPS = (
     'utils',
     'tagging',
     'feeds',
+    'django_messages_framework',
     'debug_toolbar'
 )
 
@@ -102,3 +104,11 @@ ADMIN_PASSWORD = 'zeadmin'
 DEBUG_TOOLBAR_CONFIG = {'INTERCEPT_REDIRECTS': False}
 
 FORCE_LOWERCASE_TAGS = True
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django_messages_framework.context_processors.messages")
+
+MESSAGE_STORAGE = 'django_messages_framework.storage.cookie.CookieStorage'
