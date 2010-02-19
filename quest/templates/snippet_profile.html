@@ -8,7 +8,7 @@
 <div id='snippet_content'>
 {{message}}
 <h3><a href='{%url snippet_profile snippet.id snippet.slug%}'>{{snippet.title|title}}</a></h3>
-<div id='snippet_description'>{{snippet.explanation|title}}</div>
+<div id='snippet_description'>{{snippet.explanation}}</div>
 {%if owner %}
 <a onClick="javascript:document.location.href='{%url modify_snippet snippet.id snippet.slug%}'" href="javascript:;">Edit</a>&nbsp;|&nbsp;
 <a onClick="javascript:document.location.href='{%url delete_snippet snippet.id snippet.slug%}'" href="javascript:;">Delete</a>&nbsp;|&nbsp;
