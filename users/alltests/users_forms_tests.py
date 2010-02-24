@@ -1,6 +1,8 @@
 from utils import TestCase
 
 class RegistrationFormTests(TestCase):
+    fixtures = ['UserProfileTests.json']
+    
     def test_user_submits_valid_form(self):
         form_data = {'name': 'Adnan',
                      'email': 'empty@gmail.com',
@@ -29,6 +31,18 @@ class RegistrationFormTests(TestCase):
     def test_user_submits_invalid_data(self):
         form_data = {'name': 'Adnan',
                      'email': 'nonemail',
+                     'password': '1234'}
+        from users.forms import RegistrationForm
+        form = RegistrationForm(form_data)
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.errors)
+        self.assertFalse(form.errors.get('name'))
+        self.assertTrue(form.errors.get('email'))
+        self.assertFalse(form.errors.get('password'))
+        
+    def test_user_submits_valid_duplicate_data(self):
+        form_data = {'name': 'Nanda Kishore',
+                     'email': 'madhav.bnk@gmail.com',
                      'password': '1234'}
         from users.forms import RegistrationForm
         form = RegistrationForm(form_data)
