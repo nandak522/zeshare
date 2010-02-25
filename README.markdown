@@ -17,7 +17,7 @@ ZeShare is a small "code sharing" application. And can also be used as
 
 # Installation #
 
-**Download [ZeShare version 1.0](http://github.com/madhav/zeshare/tarball/1.0 "ZeShare 1.0")**
+**Download [ZeShare version 1.0.1](http://github.com/madhav/zeshare/tarball/1.0.1 "ZeShare 1.0.1")**
 **Create 'zeshare' db with the following commands**
 
     sudo su postgres -c "createuser -sP zeshare"
