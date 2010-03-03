@@ -1,6 +1,6 @@
 import os
 
-DEBUG = True
+DEBUG = False # Just to see, how many persons are actually trying to run the app and find errors 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
