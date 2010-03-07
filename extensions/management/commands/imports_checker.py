@@ -36,11 +36,16 @@ class Command(BaseCommand):
     def handle(self, *app_labels, **options):
         from django.conf import settings
         import sys
+        if hasattr(settings, 'ROOT_PATH'):
+            ROOT_PATH = settings.ROOT_PATH
+        else:
+            import os
+            ROOT_PATH = os.getcwd()
         if not app_labels:
-            self.directory_py_files(settings.ROOT_PATH)
+            self.directory_py_files(ROOT_PATH)
             sys.exit()
         for app_label in app_labels:
-            if app_label not in settings.CUSTOM_APPS:
+            if app_label not in settings.INSTALLED_APPS:
                 sys.exit("Supplied app '%s' is not part of this project. Please mention a proper app name" % app_label)
         for app_label in app_labels:
             self.directory_py_files(settings.ROOT_PATH + "/" + app_label)
