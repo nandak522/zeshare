@@ -1,8 +1,8 @@
 {%extends 'singlepane_base.html'%}
-{%block title%}List Snippets{%endblock%}
+{%block title%}{%if tag%}{{tag.name|title}}{%else%}List of{%endif%} Snippets{%endblock%}
 {%block content%}
 <link href="{%url feeds 'snippets'%}" title="Latest Snippets - RSS - ZeShare" type="application/rss+xml" rel="alternate">
-<h3>List of Snippets</h3>
+<h3>{%if tag%}{{tag.name|title}}{%else%}List of{%endif%} Snippets</h3>
 <ul>
 <!-- There is a reason why I didn't use snippet.get_absolute_url -->
 {%for snippet in snippets.object_list%}

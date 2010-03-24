@@ -1,0 +1,20 @@
+[
+    {
+        "pk": 1, 
+        "model": "tagging.taggeditem", 
+        "fields": {
+            "tag": 8, 
+            "object_id": 1, 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "tagging.taggeditem", 
+        "fields": {
+            "tag": 2, 
+            "object_id": 1, 
+            "content_type": 10
+        }
+    }
+]

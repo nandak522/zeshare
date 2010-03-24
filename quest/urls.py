@@ -9,4 +9,5 @@ urlpatterns = patterns('quest.views',
     (r'^add/$', 'view_add_snippet', {'add_snippet_template':'add_snippet.html', 'snippet_profile_template':'snippet_profile.html'}, 'add_snippet'),
     (r'^(?P<snippet_id>\d+)/(?P<snippet_slug>[\w-]+)/delete/$', 'view_delete_snippet', {}, 'delete_snippet'),
     (r'^(?P<snippet_id>\d+)/(?P<snippet_slug>[\w-]+)/modify/$', 'view_modify_snippet', {'modify_snippet_template':'add_snippet.html', 'snippet_profile_template':'snippet_profile.html'}, 'modify_snippet'),
+    (r'^(?P<tag_name>[\w-]+)/$', 'view_tagged_snippets', {'tagged_snippets_template':'all_snippets.html'}, 'tagged_snippets'),
 )

@@ -15,12 +15,34 @@ class AllSnippetsPage_Tests(TestCase):
         self.assertTrue(hasattr(snippets, 'object_list'))
         self.assertTrue(snippets.object_list)
         self.assertTemplateUsed(response, 'all_snippets.html')
+        self.assertFalse(context.has_key('tag'))
+        
+class BrowseByTagPage_Tests(TestCase):
+    fixtures = ['snippets.json', 'tags.json', 'tagged_snippets.json']
+    
+    def test_browse_by_tag_url_for_invalid_tag(self):
+        response = self.client.get(url_reverse('quest.views.view_tagged_snippets',
+                                               args=('invalid-tag',)))
+        self.assertContains(response, 'Page Not Found', status_code=404)
+        
+    def test_browse_by_tag_url_for_valid_tag(self):
+        response = self.client.get(url_reverse('quest.views.view_tagged_snippets',
+                                               args=('django',)))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'all_snippets.html')
+        context = response.context[0]
+        self.assertTrue(context.has_key('tag'))
+        tag = context.get('tag')
+        self.assertEquals(tag.name, 'django')
+        self.assertTrue(context.has_key('snippets'))
+        snippets = context.get('snippets')
+        self.assertTrue(snippets.object_list)
 
 class SnippetProfilePage_Tests(TestCase):
-    fixtures = ['snippets.json']
+    fixtures = ['snippets.json', 'tags.json', 'tagged_snippets.json']
 
     def test_snippetprofile_url(self):
-        snippet = Snippet.objects.all()[0]
+        snippet = list(Snippet.objects.all())[-1]
         snippet_id = snippet.id
         snippet_slug = snippet.slug
         response = self.client.get(url_reverse('quest.views.view_snippet_profile',
@@ -33,6 +55,11 @@ class SnippetProfilePage_Tests(TestCase):
         snippet = context.get('snippet')
         self.assertEquals(snippet.id, snippet_id)
         self.assertEquals(snippet.slug, snippet_slug)
+        #TODO:Test the tags presence
+        from tagging.models import Tag
+        tags = Tag.objects.get_for_object(snippet)
+        for tag in tags:
+            self.assertTrue(tag.name in response.content)
 
 class AddSnippetPage_Tests(TestCase):
     fixtures = ['UserProfileTests.json']

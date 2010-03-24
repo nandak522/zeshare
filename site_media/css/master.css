@@ -40,6 +40,7 @@ label{font:bold 0.80em "Trebuchet MS",'sans-serif', 'Arial';}
 .highlighttable{background:#F0F3F3;border-top:1px solid #CCC;border-bottom:1px solid #CCC;}
 #snippet_description{font-size:0.75em;margin-bottom:4px;background:#F0F3F3;padding:2px;}
 #snippet_content{width:97%;}
+#tags_header{font-family:monospace;font-size:1.4em;}
 
 /*Add Snippet Page*/
 
