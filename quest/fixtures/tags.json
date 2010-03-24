@@ -1,0 +1,30 @@
+[
+    {
+        "pk": 8, 
+        "model": "tagging.tag", 
+        "fields": {
+            "name": "django"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "tagging.tag", 
+        "fields": {
+            "name": "imports"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "tagging.tag", 
+        "fields": {
+            "name": "python"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "tagging.tag", 
+        "fields": {
+            "name": "pythonista"
+        }
+    }
+]

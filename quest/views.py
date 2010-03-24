@@ -1,12 +1,14 @@
-from quest.models import Snippet
-from utils import response, post_data
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from quest.decorators import is_snippetowner
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse as url_reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from quest.decorators import is_snippetowner
+from quest.models import Snippet
+from types import NotImplementedType
+from utils import response, post_data
 import django_messages_framework
+from tagging.models import Tag, TaggedItem
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
@@ -142,3 +144,18 @@ def view_search_snippets(request, search_snippets_template):
     else:
         form = SearchSnippetForm()
     return response(request, search_snippets_template, {'form': form, 'snippets': []})
+
+def view_tagged_snippets(request, tag_name, tagged_snippets_template):
+    tag = get_object_or_404(Tag, name=tag_name)
+    snippets = [tagged_item.object for tagged_item in TaggedItem.objects.filter(tag=tag) if tagged_item.object]
+    paginator = Paginator(snippets, 1)
+    try:
+        page = int(request.GET.get('page', 1))
+    except ValueError:
+        page = 1
+    try:
+        snippets = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        snippets = paginator.page(paginator.num_pages)
+    return response(request, tagged_snippets_template, {'snippets': snippets,
+                                                        'tag': tag})
