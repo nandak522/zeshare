@@ -55,7 +55,6 @@ class SnippetProfilePage_Tests(TestCase):
         snippet = context.get('snippet')
         self.assertEquals(snippet.id, snippet_id)
         self.assertEquals(snippet.slug, snippet_slug)
-        #TODO:Test the tags presence
         from tagging.models import Tag
         tags = Tag.objects.get_for_object(snippet)
         for tag in tags:
