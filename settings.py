@@ -33,7 +33,7 @@ ROOT_PATH = os.getcwd()
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -112,3 +112,5 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.auth",
                                "django_messages_framework.context_processors.messages")
 
 MESSAGE_STORAGE = 'django_messages_framework.storage.cookie.CookieStorage'
+
+PAGINATION_ITEMS_SIZE = 10
