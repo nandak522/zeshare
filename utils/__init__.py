@@ -7,7 +7,7 @@ language_choices = (('py','Python'),
                     ('js', 'Javascript'),
                     ('html', 'HTML')) 
 
-def response(request, template, context, status_code=200):
+def response(request, template, context):
     return render_to_response(template, context, context_instance=RequestContext(request))
 
 def print_json(queryset):
