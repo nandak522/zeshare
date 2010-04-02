@@ -1,0 +1,12 @@
+{%extends 'singlepane_base.html'%}
+{% block title %}Tag Cloud for Snippets{% endblock %}
+{%block content%}
+<h3>Tag Cloud for Snippets</h3>
+{%load tagging_tags%}
+{% tag_cloud_for_model quest.Snippet as snippets_tags with steps=3%}
+{%for snippets_tag in snippets_tags%}
+<a title="Browse {{snippets_tag.name|title}} snippets" href="{%url tagged_snippets tag_name=snippets_tag.name%}"><span class="tag" style='font-size:{{snippets_tag.font_size}}em;'>{{snippets_tag.name}}</span></a>&nbsp;&nbsp;
+{%endfor%}
+<h5><a href="{%url all_snippets%}">All Snippets</a></h5>
+</div>
+{%endblock%}

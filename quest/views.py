@@ -9,12 +9,13 @@ from types import NotImplementedType
 from utils import response, post_data
 import django_messages_framework
 from tagging.models import Tag, TaggedItem
+from django.conf import settings
 
 def view_homepage(request, homepage_template):
     return response(request, homepage_template, locals())
 
 def view_all_snippets(request, all_snippets_template):
-    paginator = Paginator(Snippet.publicsnippets.values('id', 'title', 'active', 'slug'), 1)
+    paginator = Paginator(Snippet.publicsnippets.values('id', 'title', 'active', 'slug'), settings.PAGINATION_ITEMS_SIZE)
     try:
         page = int(request.GET.get('page', 1))
     except ValueError:
@@ -131,7 +132,7 @@ def view_search_snippets(request, search_snippets_template):
         if form.is_valid():
             query = form.cleaned_data.get('query')
             #TODO:Should also support tagbased search
-            paginator = Paginator(Snippet.objects.filter(title__icontains=query).values('id', 'title', 'active', 'slug'), 2)
+            paginator = Paginator(Snippet.objects.filter(title__icontains=query).values('id', 'title', 'active', 'slug'), settings.PAGINATION_ITEMS_SIZE)
             try:
                 page = int(request.GET.get('page', 1))
             except ValueError:
@@ -159,3 +160,7 @@ def view_tagged_snippets(request, tag_name, tagged_snippets_template):
         snippets = paginator.page(paginator.num_pages)
     return response(request, tagged_snippets_template, {'snippets': snippets,
                                                         'tag': tag})
+    
+def view_tagcloud_snippets(request, tagcloud_snippets_template):
+    #FIXME:Could be in a generic view ? as its empty!
+    return response(request, tagcloud_snippets_template, {})

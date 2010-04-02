@@ -258,3 +258,15 @@ class SnippetSearchPageTests(TestCase):
         self.assertTrue(form)
         self.assertTrue(form.errors)
         self.assertTrue(form.errors.get('query'))
+        
+class SnippetTagCloudTests(TestCase):
+    fixtures = ['snippets.json', 'tags.json', 'tagged_snippets.json']
+
+    def test_snippets_tagcloud_url(self):
+        response = self.client.get(path=url_reverse('quest.views.view_tagcloud_snippets'))
+        self.assertTrue(response)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'tagcloud_snippets.html')
+        from tagging.models import TaggedItem
+        for taggeditem in TaggedItem.objects.all():
+            self.assertTrue(taggeditem.tag.name in response.content)
