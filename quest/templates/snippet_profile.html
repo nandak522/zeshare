@@ -13,7 +13,7 @@
 <a onClick="javascript:document.location.href='{%url modify_snippet snippet.id snippet.slug%}'" href="javascript:;">Edit</a>&nbsp;|&nbsp;
 <a onClick="javascript:document.location.href='{%url delete_snippet snippet.id snippet.slug%}'" href="javascript:;">Delete</a>&nbsp;|&nbsp;
 {%endif%}
-<div class='snippet'>{{snippet.highlight|safe}}</div>
+<div class='snippet'><pre>{{snippet.highlight}}</pre></div>
 {%load tagging_tags%}
 {% tags_for_object snippet as tag_list %}
 <span id='tags_header'>Tags:</span>{%for tag in tag_list%}
