@@ -2,9 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.template.defaultfilters import striptags
-from pygments import formatters
-from pygments import highlight as syntax_highlight
-from pygments.lexers import get_lexer_by_name
+from django.utils.safestring import mark_safe
 from users.models import UserProfile
 from utils import language_choices
 from utils.models import BaseModel, BaseModelManager
@@ -88,6 +86,7 @@ class Snippet(BaseModel):
                                   force_update=force_update)
 
     def get_lexer(self):
+        from pygments.lexers import get_lexer_by_name
         if self.lang == 'py':
             return get_lexer_by_name('python')
         elif self.lang == 'sql':
@@ -100,11 +99,17 @@ class Snippet(BaseModel):
             raise NotImplementedError
 
     def highlight(self):
-        return syntax_highlight(self.code,
-                                self.get_lexer(),
-                                formatters.HtmlFormatter(linenos='table',
-                                                         lineanchors='line',
-                                                         anchorlinenos=True))
+        try:
+            from pygments import formatters
+            formatter = formatters.HtmlFormatter
+            from pygments import highlight as syntax_highlight
+            return mark_safe(syntax_highlight(self.code,
+                                              self.get_lexer(),
+                                              formatters.HtmlFormatter(linenos='table',
+                                                                       lineanchors='line',
+                                                                       anchorlinenos=True)))
+        except ImportError:
+            return mark_safe(self.code)
 
     def activate(self):
         if not self.active:
