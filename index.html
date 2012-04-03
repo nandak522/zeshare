@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Zeshare by none-da</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>Zeshare</h1>
+        <p>A Simple code sharing application</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/none-da/zeshare" class="button fork"><strong>Fork On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/none-da/zeshare/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/none-da/zeshare/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>ZeShare</h1>
+
+<p>ZeShare is a small "code sharing" application. And can also be used as</p>
+
+<ul>
+<li>Ask programming puzzles and let people crack it and find the talent</li>
+<li>Ask for volunteering to any project/work</li>
+<li>Ask business related questions</li>
+<li>Do Code-Reviews</li>
+<li>Any other lateral ways to use this? <a href="mailto:madhav.bnk@gmail.com" title="madhav.bnk@gmail.com">Please let me know!</a>
+</li>
+</ul><h1>Prerequisites</h1>
+
+<ul>
+<li><a href="http://python.org/" title="Python">Python 2.5</a></li>
+<li><a href="http://pygments.org/" title="Pygments">Pygments</a></li>
+<li><a href="http://code.djangoproject.com/browser/django/tags/releases/1.1.1" title="Django 1.1">Django 1.1</a></li>
+<li><a href="http://www.postgresql.org" title="Postgresql">Postgresql</a></li>
+</ul><h1>Installation</h1>
+
+<p><strong>Download <a href="http://github.com/madhav/zeshare/tarball/1.0.1" title="ZeShare 1.0.1">ZeShare version 1.0.1</a></strong>
+<strong>Create 'zeshare' db with the following commands</strong></p>
+
+<pre><code>sudo su postgres -c "createuser -sP zeshare"
+sudo su postgres -c "createdb zeshare -O zeshare -W"
+</code></pre>
+
+<p>(you can always have your own db name and credentials as well. Please update 'settings.py' in zeshare folder with those corresponding values)</p>
+
+<h1>Running ZeShare (development server)</h1>
+
+<pre><code>cd zeshare
+python manage.py syncdb #(for creating the required tables in 'zeshare' db)
+python manage.py test quest users utils #(for testing 'zeshare' testcases)
+python manage.py runserver #(run the development server)
+</code></pre>
+
+<h1>Contribute</h1>
+
+<p>Development of ZeShare happens at Github: <a href="http://github.com/madhav/zeshare">http://github.com/madhav/zeshare</a></p>
+
+<p><strong>You are highly encouraged to participate in the development of ZeShare</strong>. If you don't like Github (for some reason) you're welcome to send regular patches.</p>
+
+<pre><code>git clone git@github.com:madhav/zeshare.git zeshare
+</code></pre>
+
+<h1>TODOs and BUGS</h1>
+
+<ul>
+<li><a href="http://github.com/madhav/zeshare/issues" title="Issues">http://github.com/madhav/zeshare/issues</a></li>
+</ul><h1>Built on</h1>
+
+<ul>
+<li>Python2.6, Django(1.1), Postgresql-8.3, Blueprint CSS, YUI, Eclipse(3.4), GIT(github), Pixlr, Ubuntu 9.10</li>
+</ul>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/none-da">none-da</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
